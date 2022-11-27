@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 5000
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors())
 
 /* 
@@ -32,6 +32,12 @@ async function run(){
             const phones = await phonesCollection.find(query).toArray()
             res.send(phones)
 
+        })
+        app.get('/phones/:category',async(req,res)=>{
+            const category = req.params.category
+            const query = { category : category}
+            const phone = await phonesCollection.find(query).toArray()
+            res.send(phone)
         })
     }
     finally{
