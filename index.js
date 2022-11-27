@@ -39,6 +39,20 @@ async function run(){
             const phone = await phonesCollection.find(query).toArray()
             res.send(phone)
         })
+        app.get('/categories',async(req,res)=>{
+            const query = {}
+            const phones = await phonesCollection.find(query).toArray();
+            const categories = []
+            phones.forEach(phone=>{
+                if(categories.includes(phone.category)){
+                    return;
+                }
+                else{
+                    categories.push(phone.category)
+                }
+            })
+            res.send(categories)
+        })
     }
     finally{
 
