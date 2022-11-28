@@ -4,11 +4,12 @@ const cors = require('cors')
 const port = process.env.PORT || 5000
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors())
+app.use(express.json())
 
 /* 
 
 database : mobileBazar
-collections : products
+collections : products,users
 
 dbUser : mobileBazar
 pass : QphRrjAszKBZYINx
@@ -26,6 +27,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
     try{
         const phonesCollection = client.db('mobileBazar').collection('products');
+        const userCollection = client.db("mobileBazar").collection('users')
 
         app.get('/phones',async(req,res)=>{
             const query = {}
@@ -53,6 +55,14 @@ async function run(){
             })
             res.send(categories)
         })
+
+        // users
+        app.post('/users',async(req,res)=>{
+            const user = req.body;
+            const result = await userCollection.insertOne(user)
+            res.send(result)
+        })
+
     }
     finally{
 
