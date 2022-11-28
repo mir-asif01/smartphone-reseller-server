@@ -9,7 +9,7 @@ app.use(express.json())
 /* 
 
 database : mobileBazar
-collections : products,users
+collections : products,users,orders
 
 dbUser : mobileBazar
 pass : QphRrjAszKBZYINx
@@ -28,6 +28,7 @@ async function run(){
     try{
         const phonesCollection = client.db('mobileBazar').collection('products');
         const userCollection = client.db("mobileBazar").collection('users')
+        const orderCollection = client.db("mobileBazar").collection('orders')
 
         app.get('/phones',async(req,res)=>{
             const query = {}
@@ -60,6 +61,13 @@ async function run(){
         app.post('/users',async(req,res)=>{
             const user = req.body;
             const result = await userCollection.insertOne(user)
+            res.send(result)
+        })
+
+        //orders
+        app.post('/orders',async(req,res)=>{
+            const order = req.body;
+            const result = await orderCollection.insertOne(order)
             res.send(result)
         })
 
