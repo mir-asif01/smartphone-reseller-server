@@ -9,7 +9,7 @@ app.use(express.json())
 /* 
 
 database : mobileBazar
-collections : products,users,orders
+collections : products,users,orders,advertisements
 
 dbUser : mobileBazar
 pass : QphRrjAszKBZYINx
@@ -29,6 +29,7 @@ async function run(){
         const phonesCollection = client.db('mobileBazar').collection('products');
         const userCollection = client.db("mobileBazar").collection('users')
         const orderCollection = client.db("mobileBazar").collection('orders')
+        const adCollection = client.db("mobileBazar").collection('advertisements')
 
         app.get('/phones',async(req,res)=>{
             const query = {}
@@ -98,6 +99,20 @@ async function run(){
             res.send(result)
         })
 
+        app.delete('/products/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id : ObjectId(id)}
+            const result = phonesCollection.deleteOne(query)
+            res.send(result)
+        })
+
+        // advertisement
+
+        app.post('/advertisements',async(req,res)=>{
+            const advertisement = req.body;
+            const result = await adCollection.insertOne(advertisement)
+            res.send(result)
+        })
     }
     finally{
 
