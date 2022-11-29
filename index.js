@@ -113,6 +113,11 @@ async function run(){
             const result = await adCollection.insertOne(advertisement)
             res.send(result)
         })
+        app.get('/advertisements',async(req,res)=>{
+            const query = {}
+            const ads = await adCollection.find(query).sort({time : -1}).toArray();
+            res.send(ads);
+        })
     }
     finally{
 
